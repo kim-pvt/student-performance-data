@@ -1,7 +1,7 @@
 # Student Performance Data Set - Brief Analysis
 
 
-# Attributes 
+# 変数名一覧
 
 |No.| 変数名 | 内容 |
 |:-:|:-|:-|
