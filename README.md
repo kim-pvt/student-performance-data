@@ -35,6 +35,6 @@
 28 |Walc |週末の飲酒 |numeric: from 1 - very low to 5 - very high
 29 |health |健康状態 |numeric: from 1 - very bad to 5 - very good
 30 |absences |欠席日数 |numeric: from 0 to 93
-31 |G1 -|一学期の成績（数学またはポルトガル語） |numeric: from 0 to 20
+31 |G1 |一学期の成績（数学またはポルトガル語） |numeric: from 0 to 20
 31 |G2 |二学期の成績（数学またはポルトガル語） |numeric: from 0 to 20
 32 | G3 |三学期の成績（数学またはポルトガル語） |numeric: from 0 to 20, output target
