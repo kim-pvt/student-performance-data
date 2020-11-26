@@ -37,4 +37,4 @@
 30 |absences |欠席日数 |numeric: from 0 to 93
 31 |G1 |一学期の成績<br>（数学またはポルトガル語） |numeric: from 0 to 20
 31 |G2 |二学期の成績<br>（数学またはポルトガル語） |numeric: from 0 to 20
-32 | G3 |三学期の成績<br>（数学またはポルトガル語） |numeric: from 0 to 20, output target
+32 | G3 |三学期の成績<br>（数学またはポルトガル語） |numeric: from 0 to 20 ＊目的変数
