@@ -15,13 +15,13 @@
 8 | Fedu | 父親の学歴 |numeric: 0 - none, 1 - primary education (4th grade), 2 - 5th to 9th grade, 3 - secondary education or 4 - higher education
 9 | Mjob | 母親の職業 |nominal: 'teacher', 'health' care related, civil 'services' (e.g. administrative or police), 'at_home' or 'other'
 10 | Fjob | 父親の職業  |nominal: 'teacher', 'health' care related, civil 'services' (e.g. administrative or police), 'at_home' or 'other'
-11 | reason | 現在の通学校に進学した理由 |nominal: close to 'home', school 'reputation', 'course' preference or 'other'
+11 | reason | 在籍校への進学理由 |nominal: close to 'home', school 'reputation', 'course' preference or 'other'
 12 | guardian |保護者 |nominal: 'mother', 'father' or 'other'
 13 |traveltime |通学時間 |numeric: 1 - <15 min., 2 - 15 to 30 min., 3 - 30 min. to 1 hour, or 4 - >1 hour
 14 |studytime |週平均学習時間 |numeric: 1 - <2 hours, 2 - 2 to 5 hours, 3 - 5 to 10 hours, or 4 - >10 hours
 15 |failures |これまでに落とした単位数 |numeric: n if 1<=n<3, else 4
 16 |schoolsup |追加学習サポート |binary: yes or no
-17 |famsup |家族の学習補助 |binary: yes or no
+17 |famsup |家族の学習サポート |binary: yes or no
 18 |paid |追加有料講座受講 (数学またはポルトガル語) binary: yes or no
 19 |activities |課外活動 |binary: yes or no
 20 |nursery |保育園歴 |binary: yes or no
