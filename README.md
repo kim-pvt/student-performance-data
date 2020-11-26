@@ -3,8 +3,8 @@
 
 # 変数名一覧
 
-|No.| 変数名 | 内容 |
-|:-:|:-|:-|
+|No.| 変数名 | 内容 | 詳細|
+|:-:|:-|:-|:-|
 1 | school | 学校名 (binary 'GP' - Gabriel Pereira or 'MS' - Mousinho da Silveira)
 2 | sex | 性別 (binary: 'F' - female or 'M' - male)
 3 | age | 年齢 (numeric: from 15 to 22)
