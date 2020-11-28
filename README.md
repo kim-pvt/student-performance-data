@@ -19,7 +19,7 @@
 12 | guardian |保護者 |nominal: 'mother', 'father' or 'other'
 13 |traveltime |通学時間 |numeric: 1 - <15 min., 2 - 15 to 30 min., 3 - 30 min. to 1 hour, or 4 - >1 hour
 14 |studytime |週平均学習時間 |numeric: 1 - <2 hours, 2 - 2 to 5 hours, 3 - 5 to 10 hours, or 4 - >10 hours
-15 |failures |これまでに落とした単位数 |numeric: n if 1<=n<3, else 4
+15 |failures |落とした単位数 |numeric: n if 1<=n<3, else 4
 16 |schoolsup |追加学習サポート |binary: yes or no
 17 |famsup |家族の学習サポート |binary: yes or no
 18 |paid |追加有料講座受講|binary: yes or no
