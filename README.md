@@ -22,7 +22,7 @@
 15 |failures |これまでに落とした単位数 |numeric: n if 1<=n<3, else 4
 16 |schoolsup |追加学習サポート |binary: yes or no
 17 |famsup |家族の学習サポート |binary: yes or no
-18 |paid |追加有料講座受講 <br>(数学またはポルトガル語)|binary: yes or no
+18 |paid |追加有料講座受講|binary: yes or no
 19 |activities |課外活動 |binary: yes or no
 20 |nursery |保育園歴 |binary: yes or no
 21 |higher |大学進学希望 |binary: yes or no
