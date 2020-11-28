@@ -1,0 +1,1681 @@
+\documentclass[9pt]{ltjsarticle}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Brief Analysis on Student Performance Data Set}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+% Document title
+
+%\usepackage{authblk}
+    \title{\textbf{Brief Analysis on Student Performance Data Set} }
+%    \author{\vspace{3pt}\LARGE{Sung-Gi Kim}\footnote{\href{mailto:s-kim@3sss.co.jp}{s-kim@3sss.co.jp}}}
+%    \affil{\Large Tokyo IT School}
+%    \renewcommand\Affilfont{\itshape\small}
+    \date{November, 2020}
+    
+
+\begin{document}
+    
+    \maketitle
+
+\tableofcontents
+
+    
+
+    
+    \hypertarget{ux30c7ux30fcux30bfux60c5ux5831}{%
+\section{データ情報}\label{ux30c7ux30fcux30bfux60c5ux5831}}
+
+【データ名】\\ Student Performance Data Set
+
+【取得元】\\ カリフォルニア大学アーバイン校／機械学習リポジトリ\cite{uci}
+
+【原著論文容】\\USING DATA MINING TO PREDICT SECONDARY SCHOOL STUDENT PERFORMANCE \cite{cortez}
+ \\
+(ポルトガルの高校における数学とポルトガル語の学年末成績の予測)
+\newpage
+    \hypertarget{ux5909ux6570ux4e00ux89a7}{%
+\subsection{変数一覧}\label{ux5909ux6570ux4e00ux89a7}}
+
+\begin{longtable}[]{@{}clll@{}}
+\toprule
+\begin{minipage}[b]{0.05\columnwidth}\centering
+No.\strut
+\end{minipage} & \begin{minipage}[b]{0.09\columnwidth}\raggedright
+変数名\strut
+\end{minipage} & \begin{minipage}[b]{0.19\columnwidth}\raggedright
+内容\strut
+\end{minipage} & \begin{minipage}[b]{0.70\columnwidth}\raggedright
+詳細\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.05\columnwidth}\centering
+1\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+school\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+学校名\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+binary `GP' - Gabriel Pereira or `MS' - Mousinho da Silveira\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+2\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+sex\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+性別\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+binary: `F' - female or `M' - male\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+3\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+age\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+年齢\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+numeric: from 15 to 22\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+4\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+address\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+居住地域\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+binary: `U' - urban or `R' - rural\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+5\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+famsize\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+世帯人数\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+binary: `LE3' - less or equal to 3 or `GT3' - greater than 3\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+6\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+Pstatus\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+両親との同居有無\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+binary: `T' - living together or `A' - apart\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+7\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+Medu\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+母親の学歴\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+numeric: 0 - none, 1 - primary education (4th grade), 2 - 5th to 9th
+grade, 3 - secondary education or 4 - higher education\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+8\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+Fedu\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+父親の学歴\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+numeric: 0 - none, 1 - primary education (4th grade), 2 - 5th to 9th
+grade, 3 - secondary education or 4 - higher education\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+9\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+Mjob\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+母親の職業\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+nominal: `teacher', `health' care related, civil `services'
+(e.g.~administrative or police), `at\_home' or `other'\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+10\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+Fjob\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+父親の職業\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+nominal: `teacher', `health' care related, civil `services'
+(e.g.~administrative or police), `at\_home' or `other'\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+11\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+reason\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+現在籍校への進学理由\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+nominal: close to `home', school `reputation', `course' preference or
+`other'\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+12\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+guardian\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+保護者\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+nominal: `mother', `father' or `other'\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+13\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+traveltime\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+通学時間\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+numeric: 1 - \textless15 min., 2 - 15 to 30 min., 3 - 30 min. to 1 hour,
+or 4 - \textgreater1 hour\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+14\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+studytime\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+週平均学習時間\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+numeric: 1 - \textless2 hours, 2 - 2 to 5 hours, 3 - 5 to 10 hours, or 4
+- \textgreater10 hours\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+15\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+failures\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+落とした単位数\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+numeric: n if 1\textless=n\textless3, else 4\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+16\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+schoolsup\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+追加学習サポート\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+binary: yes or no\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+17\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+famsup\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+家族の学習サポート\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+binary: yes or no\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+18\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+paid\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+追加有料講座受講\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+binary: yes or no\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+19\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+activities\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+課外活動\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+binary: yes or no\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+20\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+nursery\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+保育園歴\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+binary: yes or no\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+21\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+higher\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+大学進学希望\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+binary: yes or no\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+22\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+internet\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+自宅ネット環境\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+binary: yes or no\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+23\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+romantic\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+交際相手\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+binary: yes or no\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+24\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+famrel\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+家族との関係\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+numeric: from 1 - very bad to 5 - excellent\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+25\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+freetime\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+放課後の自由時間\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+numeric: from 1 - very low to 5 - very high\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+26\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+goout\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+交友頻度\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+numeric: from 1 - very low to 5 - very high\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+27\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+Dalc\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+平日の飲酒\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+numeric: from 1 - very low to 5 - very high\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+28\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+Walc\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+週末の飲酒\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+numeric: from 1 - very low to 5 - very high\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+29\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+health\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+健康状態\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+numeric: from 1 - very bad to 5 - very good\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+30\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+absences\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+欠席日数\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+numeric: from 0 to 93\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+31\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+G1\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+一学期の成績\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+numeric: from 0 to 20\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+31\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+G2\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+二学期の成績\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+numeric: from 0 to 20\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.05\columnwidth}\centering
+32\strut
+\end{minipage} & \begin{minipage}[t]{0.09\columnwidth}\raggedright
+G3\strut
+\end{minipage} & \begin{minipage}[t]{0.19\columnwidth}\raggedright
+三学期の成績\strut
+\end{minipage} & \begin{minipage}[t]{0.70\columnwidth}\raggedright
+numeric: from 0 to 20 ＊目的変数\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+\PY{n}{sns}\PY{o}{.}\PY{n}{set}\PY{p}{(}\PY{n}{style}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{darkgrid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{font\PYZus{}scale} \PY{o}{=} \PY{l+m+mf}{1.8}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{figure.dpi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mi}{300}
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Duplicate key in file PosixPath('/Users/sunggi/opt/anaconda3/lib/python3.7/site-
+packages/matplotlib/mpl-data/matplotlibrc'), line 250 ('font.family:
+IPAexGothic')
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}m} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{./data/student\PYZhy{}mat.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{sep}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{df\PYZus{}p} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{./data/student\PYZhy{}por.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{sep}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{;}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+\newpage
+    \hypertarget{ux5bfeux8c61ux6821ux6240ux5728ux5730}{%
+\subsection{対象校所在地}\label{ux5bfeux8c61ux6821ux6240ux5728ux5730}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{folium}
+
+\PY{c+c1}{\PYZsh{} Gabriel Pereira校, Address:　Rua Dr. Domingos Rosado　7005\PYZhy{}469 Évora}
+\PY{c+c1}{\PYZsh{}　https://aegp.edu.pt/web/pt\PYZhy{}pt/gabriel\PYZhy{}pereira}
+\PY{n}{Pereira} \PY{o}{=} \PY{p}{[}\PY{l+m+mf}{38.5745}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{7.9025}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Mousinho da Silveira校, Address: Avenida do Bonfim, 7300\PYZhy{}067 Portalegre}
+\PY{c+c1}{\PYZsh{} https://aeb.pt/portal/agrupamento/escolas/}
+\PY{n}{Silveira} \PY{o}{=} \PY{p}{[}\PY{l+m+mf}{39.3025}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mf}{7.4333}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} center = [(x+y)/2 +10 for (x, y) in zip(Pereira, Silveira)]}
+\PY{n}{center} \PY{o}{=}\PY{p}{[}\PY{l+m+mi}{45}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{]}
+
+\PY{n}{m} \PY{o}{=} \PY{n}{folium}\PY{o}{.}\PY{n}{Map}\PY{p}{(}\PY{n}{location}\PY{o}{=}\PY{n}{center}\PY{p}{,} \PY{n}{tiles}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Stamen Terrain}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{zoom\PYZus{}start}\PY{o}{=}\PY{l+m+mf}{4.5}\PY{p}{)} 
+\PY{n}{folium}\PY{o}{.}\PY{n}{Marker}\PY{p}{(}\PY{n}{location}\PY{o}{=}\PY{n}{Pereira}\PY{p}{,} \PY{n}{popup}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZlt{}b\PYZgt{}Gabriel Pereira\PYZlt{}/b\PYZgt{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{add\PYZus{}to}\PY{p}{(}\PY{n}{m}\PY{p}{)}
+\PY{n}{folium}\PY{o}{.}\PY{n}{Marker}\PY{p}{(}\PY{n}{location}\PY{o}{=}\PY{n}{Silveira}\PY{p}{,} \PY{n}{popup}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZlt{}b\PYZgt{}Mousinho da Silveira\PYZlt{}/b\PYZgt{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{add\PYZus{}to}\PY{p}{(}\PY{n}{m}\PY{p}{)}
+\PY{n}{m}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={\linewidth}{\paperheight}}{map.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+        \newpage
+    \hypertarget{ux30c7ux30fcux30bfux306eux69d8ux5b50}{%
+\subsection{データの様子}\label{ux30c7ux30fcux30bfux306eux69d8ux5b50}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}m}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{T}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                  0        1        2         3       4
+school           GP       GP       GP        GP      GP
+sex               F        F        F         F       F
+age              18       17       15        15      16
+address           U        U        U         U       U
+famsize         GT3      GT3      LE3       GT3     GT3
+Pstatus           A        T        T         T       T
+Medu              4        1        1         4       3
+Fedu              4        1        1         2       3
+Mjob        at\_home  at\_home  at\_home    health   other
+Fjob        teacher    other    other  services   other
+reason       course   course    other      home    home
+guardian     mother   father   mother    mother  father
+traveltime        2        1        1         1       1
+studytime         2        2        2         3       2
+failures          0        0        3         0       0
+schoolsup       yes       no      yes        no      no
+famsup           no      yes       no       yes     yes
+paid             no       no      yes       yes     yes
+activities       no       no       no       yes      no
+nursery         yes       no      yes       yes     yes
+higher          yes      yes      yes       yes     yes
+internet         no      yes      yes       yes      no
+romantic         no       no       no       yes      no
+famrel            4        5        4         3       4
+freetime          3        3        3         2       3
+goout             4        3        2         2       2
+Dalc              1        1        2         1       1
+Walc              1        1        3         1       2
+health            3        3        3         5       5
+absences          6        4       10         2       4
+G1                5        5        7        15       6
+G2                6        5        8        14      10
+G3                6        6       10        15      10
+\end{Verbatim}
+\end{tcolorbox}
+        
+        \newpage
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}p}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{T}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                  0        1        2         3       4
+school           GP       GP       GP        GP      GP
+sex               F        F        F         F       F
+age              18       17       15        15      16
+address           U        U        U         U       U
+famsize         GT3      GT3      LE3       GT3     GT3
+Pstatus           A        T        T         T       T
+Medu              4        1        1         4       3
+Fedu              4        1        1         2       3
+Mjob        at\_home  at\_home  at\_home    health   other
+Fjob        teacher    other    other  services   other
+reason       course   course    other      home    home
+guardian     mother   father   mother    mother  father
+traveltime        2        1        1         1       1
+studytime         2        2        2         3       2
+failures          0        0        0         0       0
+schoolsup       yes       no      yes        no      no
+famsup           no      yes       no       yes     yes
+paid             no       no       no        no      no
+activities       no       no       no       yes      no
+nursery         yes       no      yes       yes     yes
+higher          yes      yes      yes       yes     yes
+internet         no      yes      yes       yes      no
+romantic         no       no       no       yes      no
+famrel            4        5        4         3       4
+freetime          3        3        3         2       3
+goout             4        3        2         2       2
+Dalc              1        1        2         1       1
+Walc              1        1        3         1       2
+health            3        3        3         5       5
+absences          4        2        6         0       0
+G1                0        9       12        14      11
+G2               11       11       13        14      13
+G3               11       11       12        14      13
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} df\PYZus{}m.info()}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} (df\PYZus{}m.dtypes == df\PYZus{}p.dtypes).sum()}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} df\PYZus{}m.isna().sum().sum()}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} df\PYZus{}p.isna().sum().sum()}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{ux57faux672cux7d71ux8a08ux91cf}{%
+\section{基本統計量}\label{ux57faux672cux7d71ux8a08ux91cf}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{cat} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{n}{num} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{df\PYZus{}m}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n}{df\PYZus{}m}\PY{o}{.}\PY{n}{dtypes}\PY{o}{.}\PY{n}{values}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{O}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+        \PY{n}{cat}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{df\PYZus{}m}\PY{o}{.}\PY{n}{columns}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+    \PY{k}{else}\PY{p}{:}
+        \PY{n}{num}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{df\PYZus{}m}\PY{o}{.}\PY{n}{columns}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NOE: cat=}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{cat}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NOE: num=}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{num}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+NOE: cat= 17
+NOE: num= 16
+    \end{Verbatim}
+
+    \hypertarget{ux8ceaux7684ux5909ux6570}{%
+\subsection{質的変数}\label{ux8ceaux7684ux5909ux6570}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{数学}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{display}\PY{p}{(}\PY{n}{df\PYZus{}m}\PY{p}{[}\PY{n}{cat}\PY{p}{]}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{all}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{T}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ポルトガル語}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{display}\PY{p}{(}\PY{n}{df\PYZus{}p}\PY{p}{[}\PY{n}{cat}\PY{p}{]}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{all}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{T}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+\newpage
+    \begin{Verbatim}[commandchars=\\\{\}]
+数学
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+           count unique     top freq
+school       395      2      GP  349
+sex          395      2       F  208
+address      395      2       U  307
+famsize      395      2     GT3  281
+Pstatus      395      2       T  354
+Mjob         395      5   other  141
+Fjob         395      5   other  217
+reason       395      4  course  145
+guardian     395      3  mother  273
+schoolsup    395      2      no  344
+famsup       395      2     yes  242
+paid         395      2      no  214
+activities   395      2     yes  201
+nursery      395      2     yes  314
+higher       395      2     yes  375
+internet     395      2     yes  329
+romantic     395      2      no  263
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+ ポルトガル語
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+           count unique     top freq
+school       649      2      GP  423
+sex          649      2       F  383
+address      649      2       U  452
+famsize      649      2     GT3  457
+Pstatus      649      2       T  569
+Mjob         649      5   other  258
+Fjob         649      5   other  367
+reason       649      4  course  285
+guardian     649      3  mother  455
+schoolsup    649      2      no  581
+famsup       649      2     yes  398
+paid         649      2      no  610
+activities   649      2      no  334
+nursery      649      2     yes  521
+higher       649      2     yes  580
+internet     649      2     yes  498
+romantic     649      2      no  410
+    \end{Verbatim}
+
+    \newpage
+    \hypertarget{ux91cfux7684ux5909ux6570}{%
+\subsection{量的変数}\label{ux91cfux7684ux5909ux6570}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{数学}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{display}\PY{p}{(}\PY{n+nb}{round}\PY{p}{(}\PY{n}{df\PYZus{}m}\PY{p}{[}\PY{n}{num}\PY{p}{]}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{all}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{T}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ポルトガル語}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{display}\PY{p}{(}\PY{n+nb}{round}\PY{p}{(}\PY{n}{df\PYZus{}p}\PY{p}{[}\PY{n}{num}\PY{p}{]}\PY{o}{.}\PY{n}{describe}\PY{p}{(}\PY{n}{include}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{all}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{T}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+数学
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+            count  mean  std   min   25\%   50\%   75\%   max
+age         395.0  16.7  1.3  15.0  16.0  17.0  18.0  22.0
+Medu        395.0   2.7  1.1   0.0   2.0   3.0   4.0   4.0
+Fedu        395.0   2.5  1.1   0.0   2.0   2.0   3.0   4.0
+traveltime  395.0   1.4  0.7   1.0   1.0   1.0   2.0   4.0
+studytime   395.0   2.0  0.8   1.0   1.0   2.0   2.0   4.0
+failures    395.0   0.3  0.7   0.0   0.0   0.0   0.0   3.0
+famrel      395.0   3.9  0.9   1.0   4.0   4.0   5.0   5.0
+freetime    395.0   3.2  1.0   1.0   3.0   3.0   4.0   5.0
+goout       395.0   3.1  1.1   1.0   2.0   3.0   4.0   5.0
+Dalc        395.0   1.5  0.9   1.0   1.0   1.0   2.0   5.0
+Walc        395.0   2.3  1.3   1.0   1.0   2.0   3.0   5.0
+health      395.0   3.6  1.4   1.0   3.0   4.0   5.0   5.0
+absences    395.0   5.7  8.0   0.0   0.0   4.0   8.0  75.0
+G1          395.0  10.9  3.3   3.0   8.0  11.0  13.0  19.0
+G2          395.0  10.7  3.8   0.0   9.0  11.0  13.0  19.0
+G3          395.0  10.4  4.6   0.0   8.0  11.0  14.0  20.0
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+ ポルトガル語
+    \end{Verbatim}
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+            count  mean  std   min   25\%   50\%   75\%   max
+age         649.0  16.7  1.2  15.0  16.0  17.0  18.0  22.0
+Medu        649.0   2.5  1.1   0.0   2.0   2.0   4.0   4.0
+Fedu        649.0   2.3  1.1   0.0   1.0   2.0   3.0   4.0
+traveltime  649.0   1.6  0.7   1.0   1.0   1.0   2.0   4.0
+studytime   649.0   1.9  0.8   1.0   1.0   2.0   2.0   4.0
+failures    649.0   0.2  0.6   0.0   0.0   0.0   0.0   3.0
+famrel      649.0   3.9  1.0   1.0   4.0   4.0   5.0   5.0
+freetime    649.0   3.2  1.1   1.0   3.0   3.0   4.0   5.0
+goout       649.0   3.2  1.2   1.0   2.0   3.0   4.0   5.0
+Dalc        649.0   1.5  0.9   1.0   1.0   1.0   2.0   5.0
+Walc        649.0   2.3  1.3   1.0   1.0   2.0   3.0   5.0
+health      649.0   3.5  1.4   1.0   2.0   4.0   5.0   5.0
+absences    649.0   3.7  4.6   0.0   0.0   2.0   6.0  32.0
+G1          649.0  11.4  2.7   0.0  10.0  11.0  13.0  19.0
+G2          649.0  11.6  2.9   0.0  10.0  11.0  13.0  19.0
+G3          649.0  11.9  3.2   0.0  10.0  12.0  14.0  19.0
+    \end{Verbatim}
+
+    \newpage
+    \hypertarget{ux63a2ux7d22ux7684ux5206ux6790ux8ceaux7684ux30c7ux30fcux30bf}{%
+\section{探索的分析：質的データ}\label{ux63a2ux7d22ux7684ux5206ux6790ux8ceaux7684ux30c7ux30fcux30bf}}
+
+    \hypertarget{ux4f5cux4f8bux5ea6ux6570ux306eux8868ux793a}{%
+\subsection{【作例】度数の表示}\label{ux4f5cux4f8bux5ea6ux6570ux306eux8868ux793a}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{nor} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{cat}\PY{p}{)}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{3}\PY{o}{+}\PY{l+m+mi}{1}
+\PY{n}{noc} \PY{o}{=} \PY{l+m+mi}{3}
+\PY{k}{for} \PY{n}{df1}\PY{p}{,} \PY{n}{sub} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{p}{[}\PY{n}{df\PYZus{}m}\PY{p}{,} \PY{n}{df\PYZus{}p}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{数学}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ポルトガル語}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{n}{fig}\PY{p}{,} \PY{n}{axs} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{nor}\PY{p}{,} \PY{n}{noc}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{30}\PY{p}{)}\PY{p}{)}
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{nor}\PY{p}{)}\PY{p}{:}
+        \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{noc}\PY{p}{)}\PY{p}{:}
+            \PY{n}{k} \PY{o}{=} \PY{l+m+mi}{3}\PY{o}{*}\PY{n}{i} \PY{o}{+} \PY{n}{j}
+            \PY{k}{if} \PY{n}{k} \PY{o}{\PYZlt{}} \PY{n+nb}{len}\PY{p}{(}\PY{n}{cat}\PY{p}{)}\PY{p}{:}
+                \PY{n}{sns}\PY{o}{.}\PY{n}{countplot}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{n}{cat}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{df1}\PY{p}{,} \PY{n}{order}\PY{o}{=}\PY{n}{df1}\PY{p}{[}\PY{n}{cat}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{index}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{]}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{n}{sub}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{25}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{0.96}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_21_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_21_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    *数学とポルトガル語ではpaidの分布に特に大きな差
+
+    \hypertarget{ux4f5cux4f8bg3ux306bux95a2ux3059ux308bux5206ux5e03}{%
+\subsection{【作例】】質的データに対するG3の分布}\label{ux4f5cux4f8bg3ux306bux95a2ux3059ux308bux5206ux5e03}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{nor} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{cat}\PY{p}{)}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{3}\PY{o}{+}\PY{l+m+mi}{1}
+\PY{n}{noc} \PY{o}{=} \PY{l+m+mi}{3}
+\PY{k}{for} \PY{n}{df1}\PY{p}{,} \PY{n}{sub} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{p}{[}\PY{n}{df\PYZus{}m}\PY{p}{,} \PY{n}{df\PYZus{}p}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{数学}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ポルトガル語}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{n}{fig}\PY{p}{,} \PY{n}{axs} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{nor}\PY{p}{,} \PY{n}{noc}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{30}\PY{p}{)}\PY{p}{,} \PY{n}{sharey}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{nor}\PY{p}{)}\PY{p}{:}
+        \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{noc}\PY{p}{)}\PY{p}{:}
+            \PY{n}{k} \PY{o}{=} \PY{l+m+mi}{3}\PY{o}{*}\PY{n}{i} \PY{o}{+} \PY{n}{j}
+            \PY{k}{if} \PY{n}{k} \PY{o}{\PYZlt{}} \PY{n+nb}{len}\PY{p}{(}\PY{n}{cat}\PY{p}{)}\PY{p}{:}
+                \PY{n}{sns}\PY{o}{.}\PY{n}{violinplot}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{n}{cat}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{hue}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{school}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{split}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{order}\PY{o}{=}\PY{n}{df1}\PY{p}{[}\PY{n}{cat}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{index}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{df1}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{]}\PY{p}{)}
+                \PY{n}{axs}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{20}\PY{p}{]}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{n}{sub}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{25}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{0.96}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_24_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_24_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    ＊数学ではguardian==otherのピークが低い\\
+     ＊MjobとFjobは数学とポルトガル語で分布に違い
+
+    \hypertarget{ux63a2ux7d22ux7684ux5206ux6790ux91cfux7684ux30c7ux30fcux30bf}{%
+\section{探索的分析：量的データ}\label{ux63a2ux7d22ux7684ux5206ux6790ux91cfux7684ux30c7ux30fcux30bf}}
+
+    \hypertarget{ux4f5cux4f8bux30d2ux30b9ux30c8ux30b0ux30e9ux30e0}{%
+\subsection{【作例】ヒストグラム}\label{ux4f5cux4f8bux30d2ux30b9ux30c8ux30b0ux30e9ux30e0}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{nor} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{num}\PY{p}{)}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{3}\PY{o}{+}\PY{l+m+mi}{1}
+\PY{n}{noc} \PY{o}{=} \PY{l+m+mi}{3}
+\PY{k}{for} \PY{n}{df1}\PY{p}{,} \PY{n}{sub} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{p}{[}\PY{n}{df\PYZus{}m}\PY{p}{,} \PY{n}{df\PYZus{}p}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{数学}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ポルトガル語}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{n}{fig}\PY{p}{,} \PY{n}{axs} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{nor}\PY{p}{,} \PY{n}{noc}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{30}\PY{p}{)}\PY{p}{)}
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{nor}\PY{p}{)}\PY{p}{:}
+        \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{noc}\PY{p}{)}\PY{p}{:}
+            \PY{n}{k} \PY{o}{=} \PY{l+m+mi}{3}\PY{o}{*}\PY{n}{i} \PY{o}{+} \PY{n}{j}
+            \PY{k}{if} \PY{n}{k} \PY{o}{\PYZlt{}} \PY{n+nb}{len}\PY{p}{(}\PY{n}{num}\PY{p}{)}\PY{p}{:}
+                \PY{n}{sns}\PY{o}{.}\PY{n}{histplot}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{n}{num}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{,} \PY{n}{hue}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sex}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{multiple}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{stack}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{kde}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{df1}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{]}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{n}{sub}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{25}\PY{p}{)}
+    \PY{n}{fig}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{0.96}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_28_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_28_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    ＊数学は成績に複数ピークが存在
+
+    \hypertarget{ux4f5cux4f8bux6563ux5e03ux56f3ux4e2dux306bux304aux3051ux308bguradianotherux306eux5206ux5e03}{%
+\subsection{【作例】散布図中におけるguradian==otherの分布}\label{ux4f5cux4f8bux6563ux5e03ux56f3ux4e2dux306bux304aux3051ux308bguradianotherux306eux5206ux5e03}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{targ} \PY{o}{=} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{guardian}\PY{l+s+s1}{\PYZsq{}}
+\PY{n}{myorder} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{other}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mother}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{father}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{mysizes} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{200}\PY{p}{,} \PY{l+m+mi}{50}\PY{p}{,} \PY{l+m+mi}{50}\PY{p}{]}
+\PY{n}{mypalette}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{m}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{c}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{c}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{n}{nor} \PY{o}{=} \PY{n+nb}{len}\PY{p}{(}\PY{n}{num}\PY{p}{)}\PY{o}{/}\PY{o}{/}\PY{l+m+mi}{3}\PY{o}{+}\PY{l+m+mi}{1}
+\PY{n}{noc} \PY{o}{=} \PY{l+m+mi}{3}
+\PY{n}{fig}\PY{p}{,} \PY{n}{axs} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{nor}\PY{p}{,} \PY{n}{noc}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,} \PY{l+m+mi}{30}\PY{p}{)}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{nor}\PY{p}{)}\PY{p}{:}
+  \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{noc}\PY{p}{)}\PY{p}{:}
+    \PY{n}{k} \PY{o}{=} \PY{l+m+mi}{3}\PY{o}{*}\PY{n}{i} \PY{o}{+} \PY{n}{j}
+    \PY{k}{if} \PY{n}{k} \PY{o}{\PYZlt{}} \PY{n+nb}{len}\PY{p}{(}\PY{n}{num}\PY{p}{)}\PY{p}{:}
+      \PY{n}{sns}\PY{o}{.}\PY{n}{scatterplot}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{n}{num}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{data}\PY{o}{=}\PY{n}{df\PYZus{}m}\PY{p}{,} \PY{n}{hue}\PY{o}{=}\PY{n}{targ}\PY{p}{,} \PY{n}{hue\PYZus{}order}\PY{o}{=}\PY{n}{myorder}\PY{p}{,} \PY{n}{palette}\PY{o}{=}\PY{n}{mypalette}\PY{p}{,} \PY{n}{size}\PY{o}{=}\PY{n}{targ}\PY{p}{,} \PY{n}{size\PYZus{}order}\PY{o}{=}\PY{n}{myorder}\PY{p}{,} \PY{n}{sizes}\PY{o}{=}\PY{n}{mysizes}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{]}\PY{p}{)}
+      \PY{k}{if} \PY{n}{k} \PY{o}{!=}\PY{l+m+mi}{0}\PY{p}{:}
+        \PY{n}{axs}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{]}\PY{o}{.}\PY{n}{get\PYZus{}legend}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{remove}\PY{p}{(}\PY{p}{)}
+        
+\PY{n}{fig}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{数学}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{25}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{0.4}\PY{p}{)}
+\PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_31_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{ux4f5cux4f8bux5b66ux671fux6210ux7e3eux3068ux5b66ux5e74ux672bux6210ux7e3eux306eux76f8ux95a2}{%
+\subsection{【作例】学期成績と学年末成績の相関}\label{ux4f5cux4f8bux5b66ux671fux6210ux7e3eux3068ux5b66ux5e74ux672bux6210ux7e3eux306eux76f8ux95a2}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{for} \PY{n}{df1}\PY{p}{,} \PY{n}{sub} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{p}{[}\PY{n}{df\PYZus{}m}\PY{p}{,} \PY{n}{df\PYZus{}p}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{数学}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ポルトガル語}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{n}{g} \PY{o}{=} \PY{n}{sns}\PY{o}{.}\PY{n}{PairGrid}\PY{p}{(}\PY{n}{df1}\PY{p}{,} \PY{n}{y\PYZus{}vars}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{G3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{x\PYZus{}vars}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{G1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{G2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{height}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{hue}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{sex}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{g}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{n}{sns}\PY{o}{.}\PY{n}{regplot}\PY{p}{)}
+    \PY{n}{g}\PY{o}{.}\PY{n}{set}\PY{p}{(}\PY{n}{ylim}\PY{o}{=}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{21}\PY{p}{)}\PY{p}{)}
+    \PY{n}{g}\PY{o}{.}\PY{n}{fig}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{0.9}\PY{p}{)}
+    \PY{n}{g}\PY{o}{.}\PY{n}{fig}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{n}{sub}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+    \PY{n}{g}\PY{o}{.}\PY{n}{add\PYZus{}legend}\PY{p}{(}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{ux4f5cux4f8bux4e21ux89aaux306eux5b66ux6b74ux8077ux696dux3068ux5b66ux5e74ux672bux6210ux7e3eux5e73ux5747}{%
+\subsection{【作例】両親の学歴・職業と学年末成績（平均）}\label{ux4f5cux4f8bux4e21ux89aaux306eux5b66ux6b74ux8077ux696dux3068ux5b66ux5e74ux672bux6210ux7e3eux5e73ux5747}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{groupmean}\PY{p}{(}\PY{n}{df1}\PY{p}{,} \PY{n}{col1}\PY{p}{,} \PY{n}{col2}\PY{p}{,} \PY{n}{col3}\PY{p}{)}\PY{p}{:}
+
+  \PY{c+c1}{\PYZsh{} df1に対してcol1とcol2でgroupbyしてcol3の平均を取得}
+  \PY{n}{df\PYZus{}gb} \PY{o}{=} \PY{n}{df1}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{p}{[}\PY{n}{col1}\PY{p}{,} \PY{n}{col2}\PY{p}{]}\PY{p}{,} \PY{n}{as\PYZus{}index}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{p}{[}\PY{n}{col3}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+
+  \PY{c+c1}{\PYZsh{} 出力dfの外枠作成}
+  \PY{n}{df\PYZus{}out} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}
+    \PY{n}{index} \PY{o}{=} \PY{n}{df\PYZus{}gb}\PY{p}{[}\PY{n}{col1}\PY{p}{]}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}\PY{p}{,}
+    \PY{n}{columns}\PY{o}{=} \PY{n}{df\PYZus{}gb}\PY{p}{[}\PY{n}{col2}\PY{p}{]}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{unique}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+  \PY{c+c1}{\PYZsh{} 出力df要素の配置}
+  \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{df\PYZus{}gb}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{n}{v} \PY{o}{=} \PY{n}{df\PYZus{}gb}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{n}{i}\PY{p}{]}
+    \PY{n}{df\PYZus{}out}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{v}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{v}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]} \PY{o}{=} \PY{n}{v}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}
+  \PY{k}{return} \PY{n}{df\PYZus{}out}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{mp} \PY{o}{=} \PY{p}{[}\PY{n}{df\PYZus{}m}\PY{p}{,} \PY{n}{df\PYZus{}p}\PY{p}{]}
+\PY{n}{dm} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fjob}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fedu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Mjob}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Medu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\PY{n}{st} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{数学}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ポルトガル語}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{cm} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Blues}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Oranges}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Math or Portuguese}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{:}
+  \PY{n}{fig}\PY{p}{,} \PY{n}{axs} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+
+  \PY{c+c1}{\PYZsh{} Dad or Mom}
+  \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{:}
+    \PY{n}{df\PYZus{}out} \PY{o}{=} \PY{n}{groupmean}\PY{p}{(}\PY{n}{mp}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{o}{*}\PY{n}{dm}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{)}
+    \PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{df\PYZus{}out}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{,} \PY{n}{mask}\PY{o}{=}\PY{n}{df\PYZus{}out}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{n}{cm}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{annot\PYZus{}kws}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{size}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+m+mi}{20}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axs}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{)}
+    \PY{n}{axs}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{o}{.}\PY{n}{set}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3(平均)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{xlabel}\PY{o}{=}\PY{n}{dm}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{ylabel}\PY{o}{=}\PY{n}{dm}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+  \PY{n}{fig}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{n}{st}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+  \PY{n}{fig}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{top}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+  \PY{n}{fig}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+  \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_36_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_36_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \newpage
+    \hypertarget{ux4f5cux4f8bux76f8ux95a2ux4fc2ux6570}{%
+\subsection{【作例】相関係数}\label{ux4f5cux4f8bux76f8ux95a2ux4fc2ux6570}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{corr} \PY{o}{=} \PY{n}{df\PYZus{}m}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{12}\PY{p}{)}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{corr}\PY{p}{,} \PY{n}{square}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{o}{.}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{annot\PYZus{}kws}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{size}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+m+mi}{14}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YlGnBu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{.1f}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{相関係数（数学）}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_38_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+    \newpage
+    \hypertarget{ux6a5fux68b0ux5b66ux7fd2ux306bux3088ux308bux6210ux7e3eux4e88ux6e2c}{%
+\section{機械学習による成績予測}\label{ux6a5fux68b0ux5b66ux7fd2ux306bux3088ux308bux6210ux7e3eux4e88ux6e2c}}
+
+    \hypertarget{ux4f5cux4f8bux7ddaux5f62ux56deux5e30}{%
+\subsection{【作例】線形回帰}\label{ux4f5cux4f8bux7ddaux5f62ux56deux5e30}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}rmse} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}
+    \PY{n}{index}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{訓練データ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{テストデータ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{全データ}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+    \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{数学}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ポルトガル語}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{参考値}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{df\PYZus{}rmse}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{l+m+mf}{1.32}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} 標準化}
+\PY{k}{def} \PY{n+nf}{zval}\PY{p}{(}\PY{n}{df1}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{p}{(}\PY{n}{df1}\PY{o}{\PYZhy{}}\PY{n}{df1}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{/}\PY{n}{df1}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{ddof}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{z} \PY{o}{=} \PY{n}{zval}\PY{p}{(}\PY{n}{df\PYZus{}m}\PY{p}{[}\PY{n}{num}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} onehotベクトル化}
+\PY{n}{w} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df\PYZus{}m}\PY{p}{[}\PY{n}{cat}\PY{p}{]}\PY{p}{,} \PY{n}{drop\PYZus{}first}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n}{x} \PY{o}{=} \PY{n}{z}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{w}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{x} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} データ分割}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k+kn}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{o}{.}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{123}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 線形回帰モデル}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k+kn}{import} \PY{n}{LinearRegression} \PY{k}{as} \PY{n}{LR}
+\PY{n}{lr} \PY{o}{=} \PY{n}{LR}\PY{p}{(}\PY{p}{)}
+\PY{n}{lr}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}train\PYZus{}pred} \PY{o}{=} \PY{n}{lr}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}test\PYZus{}pred} \PY{o}{=} \PY{n}{lr}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 標準化の逆変換(G3用)}
+\PY{k}{def} \PY{n+nf}{zinv}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{n}{x} \PY{o}{*} \PY{n}{df\PYZus{}m}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{ddof}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)} \PY{o}{+} \PY{n}{df\PYZus{}m}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{y\PYZus{}train\PYZus{}pred} \PY{o}{=} \PY{n}{zinv}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}pred}\PY{p}{)}
+\PY{n}{y\PYZus{}test\PYZus{}pred} \PY{o}{=} \PY{n}{zinv}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{)}
+\PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{zinv}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{zinv}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{)}
+
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{n}{mean\PYZus{}squared\PYZus{}error} \PY{k}{as} \PY{n}{MSE}
+\PY{n}{rmse\PYZus{}train} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{MSE}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n}{rmse\PYZus{}test} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{MSE}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n}{df\PYZus{}rmse}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{数学}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{rmse\PYZus{}train}\PY{p}{,} \PY{n}{rmse\PYZus{}test}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{p}{(}\PY{n}{rmse\PYZus{}train}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{o}{+}\PY{n}{rmse\PYZus{}test}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{]}
+
+\PY{n}{fig}\PY{p}{,} \PY{n}{axs}\PY{o}{=}\PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{14}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{,} \PY{n}{gridspec\PYZus{}kw}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{wspace}\PY{o}{=}\PY{o}{.}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\PY{n}{max\PYZus{}value} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{maximum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n}{min\PYZus{}value} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{minimum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{n}{min\PYZus{}value}\PY{p}{,} \PY{n}{max\PYZus{}value}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{n}{min\PYZus{}value}\PY{p}{,}\PY{n}{max\PYZus{}value}\PY{p}{]}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{線形回帰による予測値}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{実測値}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{数学}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k+kn}{import} \PY{n+nn}{pickle}
+\PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./math\PYZus{}reg.pkl}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{wb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+    \PY{n}{pickle}\PY{o}{.}\PY{n}{dump}\PY{p}{(}\PY{p}{(}\PY{n}{fig}\PY{p}{,} \PY{n}{axs}\PY{p}{)}\PY{p}{,} \PY{n}{f}\PY{p}{)}
+
+\PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{n+nb}{list}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{o}{.}\PY{n}{columns}\PY{p}{)}\PY{p}{,} \PY{n}{height}\PY{o}{=}\PY{n}{lr}\PY{o}{.}\PY{n}{coef\PYZus{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{回帰係数（数学）}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./math\PYZus{}coe.pkl}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{wb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+    \PY{n}{pickle}\PY{o}{.}\PY{n}{dump}\PY{p}{(}\PY{n}{fig}\PY{p}{,} \PY{n}{f}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}plt.show()}
+\end{Verbatim}
+\end{tcolorbox}
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} 標準化}
+\PY{k}{def} \PY{n+nf}{zval}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{p}{(}\PY{n}{x}\PY{o}{\PYZhy{}}\PY{n}{x}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{/}\PY{n}{x}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{ddof}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{z} \PY{o}{=} \PY{n}{zval}\PY{p}{(}\PY{n}{df\PYZus{}p}\PY{p}{[}\PY{n}{num}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} onehotベクトル化}
+\PY{n}{w} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df\PYZus{}p}\PY{p}{[}\PY{n}{cat}\PY{p}{]}\PY{p}{,} \PY{n}{drop\PYZus{}first}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n}{x} \PY{o}{=} \PY{n}{z}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{w}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{x} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} データ分割}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k+kn}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{o}{.}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{123}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 線形回帰モデル}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model} \PY{k+kn}{import} \PY{n}{LinearRegression} \PY{k}{as} \PY{n}{LR}
+\PY{n}{lr} \PY{o}{=} \PY{n}{LR}\PY{p}{(}\PY{p}{)}
+\PY{n}{lr}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}train\PYZus{}pred} \PY{o}{=} \PY{n}{lr}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}test\PYZus{}pred} \PY{o}{=} \PY{n}{lr}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 標準化の逆変換}
+\PY{k}{def} \PY{n+nf}{zinv}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{n}{x} \PY{o}{*} \PY{n}{df\PYZus{}p}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{ddof}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)} \PY{o}{+} \PY{n}{df\PYZus{}p}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{y\PYZus{}train\PYZus{}pred} \PY{o}{=} \PY{n}{zinv}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}pred}\PY{p}{)}
+\PY{n}{y\PYZus{}test\PYZus{}pred} \PY{o}{=} \PY{n}{zinv}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{)}
+\PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{zinv}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{zinv}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{)}
+
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{n}{mean\PYZus{}squared\PYZus{}error} \PY{k}{as} \PY{n}{MSE}
+\PY{n}{rmse\PYZus{}train} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{MSE}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n}{rmse\PYZus{}test} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{MSE}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n}{df\PYZus{}rmse}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ポルトガル語}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{rmse\PYZus{}train}\PY{p}{,} \PY{n}{rmse\PYZus{}test}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{p}{(}\PY{n}{rmse\PYZus{}train}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{o}{+}\PY{n}{rmse\PYZus{}test}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{]}
+
+\PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./math\PYZus{}reg.pkl}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+    \PY{n}{fig}\PY{p}{,} \PY{n}{axs}\PY{o}{=}\PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{f}\PY{p}{)}
+    
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\PY{n}{max\PYZus{}value} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{maximum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n}{min\PYZus{}value} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{minimum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{n}{min\PYZus{}value}\PY{p}{,} \PY{n}{max\PYZus{}value}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{n}{min\PYZus{}value}\PY{p}{,}\PY{n}{max\PYZus{}value}\PY{p}{]}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{線形回帰による予測値}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{実測値}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ポルトガル語}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./math\PYZus{}coe.pkl}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+    \PY{n}{fig}\PY{o}{=}\PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{f}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{20}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{n+nb}{list}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{o}{.}\PY{n}{columns}\PY{p}{)}\PY{p}{,} \PY{n}{height}\PY{o}{=}\PY{n}{lr}\PY{o}{.}\PY{n}{coef\PYZus{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{回帰係数（ポルトガル語）}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+\newpage
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_43_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_43_1.png}
+    \end{center}
+%    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_43_2.png}
+    \end{center}
+ %   { \hspace*{\fill} \\}
+    
+         \begin{table}[h]
+\caption{二乗平均平方根誤差}
+\begin{center}
+二乗平均平方根誤差\\
+\begin{tabular}{l|ccc}
+     &    数学 & ポルトガル語 &  参考値 \cite{cortez} \\
+      \hline \hline
+訓練データ  & 1.82   & 1.24  & NaN \\
+テストデータ & 1.75 &   0.86  & NaN \\
+全データ   & 1.78 &   1.07  &1.32
+\end{tabular}
+\end{center}
+\label{default}
+\end{table}%
+
+        
+        
+    \hypertarget{ux4f5cux4f8bux30e9ux30f3ux30c0ux30e0ux30d5ux30a9ux30ecux30b9ux30c8}{%
+\subsection{【作例】ランダムフォレスト}\label{ux4f5cux4f8bux30e9ux30f3ux30c0ux30e0ux30d5ux30a9ux30ecux30b9ux30c8}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} 標準化}
+\PY{k}{def} \PY{n+nf}{zval}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{p}{(}\PY{n}{x}\PY{o}{\PYZhy{}}\PY{n}{x}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{/}\PY{n}{x}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{ddof}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{z} \PY{o}{=} \PY{n}{zval}\PY{p}{(}\PY{n}{df\PYZus{}m}\PY{p}{[}\PY{n}{num}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} onehotベクトル化}
+\PY{n}{w} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df\PYZus{}m}\PY{p}{[}\PY{n}{cat}\PY{p}{]}\PY{p}{,} \PY{n}{drop\PYZus{}first}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n}{x} \PY{o}{=} \PY{n}{z}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{w}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{x} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} データ分割}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k+kn}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{o}{.}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{123}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} print(df\PYZus{}m.shape, x\PYZus{}train.shape[0], x\PYZus{}test.shape[0])}
+
+\PY{c+c1}{\PYZsh{} ランダムフォレスト}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k+kn}{import} \PY{n}{RandomForestRegressor}
+\PY{n}{rf} \PY{o}{=} \PY{n}{RandomForestRegressor}\PY{p}{(}\PY{n}{max\PYZus{}depth}\PY{o}{=}\PY{l+m+mi}{8}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{123}\PY{p}{)}
+\PY{n}{rf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}train\PYZus{}pred} \PY{o}{=} \PY{n}{rf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}test\PYZus{}pred} \PY{o}{=} \PY{n}{rf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 標準化の逆変換}
+\PY{k}{def} \PY{n+nf}{zinv}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{n}{x} \PY{o}{*} \PY{n}{df\PYZus{}m}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{ddof}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)} \PY{o}{+} \PY{n}{df\PYZus{}m}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{y\PYZus{}train\PYZus{}pred} \PY{o}{=} \PY{n}{zinv}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}pred}\PY{p}{)}
+\PY{n}{y\PYZus{}test\PYZus{}pred} \PY{o}{=} \PY{n}{zinv}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{)}
+\PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{zinv}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{zinv}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{)}
+
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{n}{mean\PYZus{}squared\PYZus{}error} \PY{k}{as} \PY{n}{MSE}
+\PY{n}{rmse\PYZus{}train} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{MSE}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n}{rmse\PYZus{}test} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{MSE}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n}{df\PYZus{}rmse}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{数学}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{rmse\PYZus{}train}\PY{p}{,} \PY{n}{rmse\PYZus{}test}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{p}{(}\PY{n}{rmse\PYZus{}train}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{o}{+}\PY{n}{rmse\PYZus{}test}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{]}
+
+\PY{n}{fig}\PY{p}{,} \PY{n}{axs}\PY{o}{=}\PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{14}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{,} \PY{n}{gridspec\PYZus{}kw}\PY{o}{=}\PY{n+nb}{dict}\PY{p}{(}\PY{n}{wspace}\PY{o}{=}\PY{o}{.}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\PY{n}{max\PYZus{}value} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{maximum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n}{min\PYZus{}value} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{minimum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{n}{min\PYZus{}value}\PY{p}{,} \PY{n}{max\PYZus{}value}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{n}{min\PYZus{}value}\PY{p}{,}\PY{n}{max\PYZus{}value}\PY{p}{]}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ランダムフォレストによる予測値}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{実測値}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{数学}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k+kn}{import} \PY{n+nn}{pickle}
+\PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./math\PYZus{}reg.pkl}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{wb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+    \PY{n}{pickle}\PY{o}{.}\PY{n}{dump}\PY{p}{(}\PY{p}{(}\PY{n}{fig}\PY{p}{,} \PY{n}{axs}\PY{p}{)}\PY{p}{,} \PY{n}{f}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} 標準化}
+\PY{k}{def} \PY{n+nf}{zval}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{p}{(}\PY{n}{x}\PY{o}{\PYZhy{}}\PY{n}{x}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{o}{/}\PY{n}{x}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{ddof}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{z} \PY{o}{=} \PY{n}{zval}\PY{p}{(}\PY{n}{df\PYZus{}p}\PY{p}{[}\PY{n}{num}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} onehotベクトル化}
+\PY{n}{w} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{df\PYZus{}p}\PY{p}{[}\PY{n}{cat}\PY{p}{]}\PY{p}{,} \PY{n}{drop\PYZus{}first}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n}{x} \PY{o}{=} \PY{n}{z}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{n}{w}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{x} \PY{o}{=} \PY{n}{x}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} データ分割}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k+kn}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{x\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{o}{.}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{123}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} print(df\PYZus{}p.shape, x\PYZus{}train.shape[0], x\PYZus{}test.shape[0])}
+
+\PY{c+c1}{\PYZsh{} ランダムフォレスト}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{ensemble} \PY{k+kn}{import} \PY{n}{RandomForestRegressor}
+\PY{n}{rf} \PY{o}{=} \PY{n}{RandomForestRegressor}\PY{p}{(}\PY{n}{max\PYZus{}depth}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{123}\PY{p}{)}
+\PY{n}{rf}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}train\PYZus{}pred} \PY{o}{=} \PY{n}{rf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}test\PYZus{}pred} \PY{o}{=} \PY{n}{rf}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} 標準化の逆変換}
+\PY{k}{def} \PY{n+nf}{zinv}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{n}{x} \PY{o}{*} \PY{n}{df\PYZus{}p}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{std}\PY{p}{(}\PY{n}{ddof}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)} \PY{o}{+} \PY{n}{df\PYZus{}p}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{y\PYZus{}train\PYZus{}pred} \PY{o}{=} \PY{n}{zinv}\PY{p}{(}\PY{n}{y\PYZus{}train\PYZus{}pred}\PY{p}{)}
+\PY{n}{y\PYZus{}test\PYZus{}pred} \PY{o}{=} \PY{n}{zinv}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{)}
+\PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{zinv}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{)}
+\PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{zinv}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{)}
+
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k+kn}{import} \PY{n}{mean\PYZus{}squared\PYZus{}error} \PY{k}{as} \PY{n}{MSE}
+\PY{n}{rmse\PYZus{}train} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{MSE}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n}{rmse\PYZus{}test} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{MSE}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n}{df\PYZus{}rmse}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ポルトガル語}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{rmse\PYZus{}train}\PY{p}{,} \PY{n}{rmse\PYZus{}test}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{p}{(}\PY{n}{rmse\PYZus{}train}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{o}{+}\PY{n}{rmse\PYZus{}test}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{]}
+
+
+\PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{./math\PYZus{}reg.pkl}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+    \PY{n}{fig}\PY{p}{,} \PY{n}{axs}\PY{o}{=}\PY{n}{pickle}\PY{o}{.}\PY{n}{load}\PY{p}{(}\PY{n}{f}\PY{p}{)}
+    
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\PY{n}{max\PYZus{}value} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{maximum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n}{min\PYZus{}value} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{minimum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{n}{y\PYZus{}test\PYZus{}pred}\PY{p}{)}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{n}{min\PYZus{}value}\PY{p}{,} \PY{n}{max\PYZus{}value}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{n}{min\PYZus{}value}\PY{p}{,}\PY{n}{max\PYZus{}value}\PY{p}{]}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ランダムフォレストによる予測値}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{実測値}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ポルトガル語}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_47_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+        
+        
+                 \begin{table}[h]
+\caption{二乗平均平方根誤差}
+\begin{center}
+二乗平均平方根誤差\\
+\begin{tabular}{l|ccc}
+     &    数学 & ポルトガル語 &  参考値  \cite{cortez} \\
+      \hline \hline
+訓練データ &  0.64   & 1.07  & NaN  \\
+テストデータ & 1.01 &   0.89  & NaN\\
+全データ  &  0.84 &   0.98 & 1.32
+\end{tabular}
+\end{center}
+\label{default}
+\end{table}%
+
+
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{dtreeviz}\PY{n+nn}{.}\PY{n+nn}{trees} \PY{k+kn}{import} \PY{n}{dtreeviz}
+\PY{n}{estimators} \PY{o}{=} \PY{n}{rf}\PY{o}{.}\PY{n}{estimators\PYZus{}}
+\PY{n}{viz} \PY{o}{=} \PY{n}{dtreeviz}\PY{p}{(}
+    \PY{n}{estimators}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}
+    \PY{n}{x\PYZus{}train}\PY{p}{,}
+    \PY{n}{y\PYZus{}train}\PY{p}{,}
+    \PY{n}{target\PYZus{}name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{G3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{feature\PYZus{}names}\PY{o}{=}\PY{n}{x}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{values}\PY{p}{,}
+    \PY{n}{precision}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}
+    \PY{n}{orientation}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LR}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{title}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{決定木の可視化 (ポルトガル語)}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{)} 
+
+\PY{c+c1}{\PYZsh{} viz}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{tree.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+
+
+
+    % Add a bibliography block to the postdoc
+    
+ 
+
+\begin{thebibliography}{99}
+%
+\bibitem{uci} カリフォルニア大学アーバイン校／機械学習リポジトリ\\
+\url{http://archive.ics.uci.edu/ml/datasets/Student+Performance}
+%
+\bibitem{cortez} USING DATA MINING TO PREDICT SECONDARY SCHOOL STUDENT
+PERFORMANCE \\
+\url{http://www3.dsi.uminho.pt/pcortez/student.pdf}
+
+
+\end{thebibliography}
+
+
+    
+\end{document}
