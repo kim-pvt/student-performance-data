@@ -16,4 +16,4 @@
 \contentsline {subsection}{\numberline {4.5}【作例】相関係数}{24}{subsection.4.5}%
 \contentsline {section}{\numberline {5}機械学習による成績予測}{25}{section.5}%
 \contentsline {subsection}{\numberline {5.1}【作例】線形回帰}{25}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}【作例】ランダムフォレスト}{29}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.2}【作例】ランダムフォレスト}{30}{subsection.5.2}%
