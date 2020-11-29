@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.12.0 (TeX Live 2020)  (format=lualatex 2020.5.2)  29 NOV 2020 00:08
+This is LuaHBTeX, Version 1.12.0 (TeX Live 2020)  (format=lualatex 2020.5.2)  29 NOV 2020 15:18
  restricted system commands enabled.
  file:line:error style messages enabled.
 **Brief_Analysis_on_Student_Performance_Data_Set.tex
@@ -1647,11 +1647,11 @@ LaTeX Warning: There were multiply-defined labels.
 
 Here is how much of LuaTeX's memory you used:
  28718 strings out of 481089
- 932654,953878 words of node,token memory allocated
+ 932659,953878 words of node,token memory allocated
  46524 words of node memory still in use:
    10 hlist, 2 vlist, 5 rule, 2 glue, 354 kern, 1 glyph, 12544 attribute, 3240 g
 lue_spec, 796 attribute_list, 2 write, 407 user_defined nodes
-   avail lists: 1:39,2:183025,3:3430,4:30365,5:5813,6:282,7:21213,8:61,9:11680,1
+   avail lists: 1:41,2:183025,3:3430,4:30365,5:5813,6:283,7:21213,8:61,9:11680,1
 0:50,11:2718
  44914 multiletter control sequences out of 65536+600000
  110 fonts using 69237419 bytes
@@ -1670,7 +1670,7 @@ nts/opentype/public/lm/lmroman12-regular.otf></usr/local/texlive/2020/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2020/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmsy5.pfb>
 Output written on Brief_Analysis_on_Student_Performance_Data_Set.pdf (33 pages, 
-3019014 bytes).
+3019011 bytes).
 
 PDF statistics: 399 PDF objects out of 1000 (max. 8388607)
  293 compressed objects within 3 object streams
