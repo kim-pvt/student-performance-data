@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.12.0 (TeX Live 2020)  (format=lualatex 2020.5.2)  1 DEC 2020 13:48
+This is LuaHBTeX, Version 1.12.0 (TeX Live 2020)  (format=lualatex 2020.5.2)  1 DEC 2020 13:54
  restricted system commands enabled.
  file:line:error style messages enabled.
 **Brief_Analysis_on_Student_Performance_Data_Set.tex
@@ -1647,7 +1647,7 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1773.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1773.
 Package rerunfilecheck Info: File `Brief_Analysis_on_Student_Performance_Data_Se
 t.out' has not changed.
-(rerunfilecheck)             Checksum: 1378E06A962E8C591D9A264206EFD6A3;2804.
+(rerunfilecheck)             Checksum: 379DE46915A33C707C7232C12E8ECB4A;2828.
 
 
 LaTeX Font Warning: Size substitutions with differences
@@ -1683,7 +1683,7 @@ nts/opentype/public/lm/lmroman12-regular.otf></usr/local/texlive/2020/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2020/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmsy5.pfb>
 Output written on Brief_Analysis_on_Student_Performance_Data_Set.pdf (36 pages, 
-3596806 bytes).
+3596181 bytes).
 
 PDF statistics: 1054 PDF objects out of 1200 (max. 8388607)
  730 compressed objects within 8 object streams

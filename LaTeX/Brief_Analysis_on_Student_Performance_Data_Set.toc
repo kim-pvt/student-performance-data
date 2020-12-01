@@ -1,6 +1,6 @@
 \contentsline {section}{\numberline {1}データ情報}{1}{section.1}%
 \contentsline {subsection}{\numberline {1.1}変数一覧}{2}{subsection.1.1}%
-\contentsline {subsection}{\numberline {1.2}対象校所在地}{4}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.2}データ取得校所在地}{4}{subsection.1.2}%
 \contentsline {subsection}{\numberline {1.3}データの様子}{5}{subsection.1.3}%
 \contentsline {section}{\numberline {2}基本統計量}{7}{section.2}%
 \contentsline {subsection}{\numberline {2.1}質的変数}{7}{subsection.2.1}%
