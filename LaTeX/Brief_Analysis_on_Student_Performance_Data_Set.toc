@@ -17,3 +17,5 @@
 \contentsline {section}{\numberline {5}機械学習による成績予測}{25}{section.5}%
 \contentsline {subsection}{\numberline {5.1}【作例】線形回帰}{25}{subsection.5.1}%
 \contentsline {subsection}{\numberline {5.2}【作例】ランダムフォレスト}{30}{subsection.5.2}%
+\contentsline {section}{\numberline {6}その他}{34}{section.6}%
+\contentsline {subsection}{\numberline {6.1}G2==0とG3==0について}{34}{subsection.6.1}%
