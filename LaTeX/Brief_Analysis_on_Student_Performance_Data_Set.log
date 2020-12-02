@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.12.0 (TeX Live 2020)  (format=lualatex 2020.5.2)  1 DEC 2020 13:54
+This is LuaHBTeX, Version 1.12.0 (TeX Live 2020)  (format=lualatex 2020.5.2)  2 DEC 2020 11:29
  restricted system commands enabled.
  file:line:error style messages enabled.
 **Brief_Analysis_on_Student_Performance_Data_Set.tex
@@ -1514,137 +1514,137 @@ LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 10.12836pt on input line 729.
 [2] [3]
 LaTeX Font Info:    Font shape `JT3/gt/m/it' in size <10> not available
-(Font)              Font shape `JT3/gt/m/n' tried instead on input line 762.
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 756.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 10.12836pt on input line 762.
+(Font)              scaled to size 10.12836pt on input line 756.
 LaTeX Font Info:    Font shape `JY3/gt/m/it' in size <10> not available
-(Font)              Font shape `JY3/gt/m/n' tried instead on input line 762.
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 756.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 10.12836pt on input line 762.
+(Font)              scaled to size 10.12836pt on input line 756.
 <map.png, id=143, 995.72pt x 596.2275pt>
 File: map.png Graphic file (type png)
 <use map.png>
-Package luatex.def Info: map.png  used on input line 781.
+Package luatex.def Info: map.png  used on input line 775.
 (luatex.def)             Requested size: 995.71758pt x 596.22604pt.
  [4<./map.png>] [5] [6] [7] [8] [9]
 <output_21_0.png, id=176, 1437.37pt x 2127.95pt>
 File: output_21_0.png Graphic file (type png)
 <use output_21_0.png>
-Package luatex.def Info: output_21_0.png  used on input line 1096.
+Package luatex.def Info: output_21_0.png  used on input line 1090.
 (luatex.def)             Requested size: 1437.3665pt x 2127.94482pt.
  [10]
 <output_21_1.png, id=185, 1437.37pt x 2127.95pt>
 File: output_21_1.png Graphic file (type png)
 <use output_21_1.png>
-Package luatex.def Info: output_21_1.png  used on input line 1101.
+Package luatex.def Info: output_21_1.png  used on input line 1095.
 (luatex.def)             Requested size: 1437.3665pt x 2127.94482pt.
  [11<./output_21_0.png>]
 [12<./output_21_1.png>]
 <output_24_0.png, id=198, 1437.37pt x 2127.95pt>
 File: output_24_0.png Graphic file (type png)
 <use output_24_0.png>
-Package luatex.def Info: output_24_0.png  used on input line 1131.
+Package luatex.def Info: output_24_0.png  used on input line 1125.
 (luatex.def)             Requested size: 1437.3665pt x 2127.94482pt.
  [13]
 <output_24_1.png, id=203, 1437.37pt x 2127.95pt>
 File: output_24_1.png Graphic file (type png)
 <use output_24_1.png>
-Package luatex.def Info: output_24_1.png  used on input line 1136.
+Package luatex.def Info: output_24_1.png  used on input line 1130.
 (luatex.def)             Requested size: 1437.3665pt x 2127.94482pt.
  [14<./output_24_0.png>] [15<./output_24_1.png>]
 <output_28_0.png, id=215, 1437.37pt x 2127.95pt>
 File: output_28_0.png Graphic file (type png)
 <use output_28_0.png>
-Package luatex.def Info: output_28_0.png  used on input line 1169.
+Package luatex.def Info: output_28_0.png  used on input line 1163.
 (luatex.def)             Requested size: 1437.3665pt x 2127.94482pt.
 
 [16]
 <output_28_1.png, id=221, 1437.37pt x 2127.95pt>
 File: output_28_1.png Graphic file (type png)
 <use output_28_1.png>
-Package luatex.def Info: output_28_1.png  used on input line 1174.
+Package luatex.def Info: output_28_1.png  used on input line 1168.
 (luatex.def)             Requested size: 1437.3665pt x 2127.94482pt.
  [17<./output_28_0.png>] [18<./output_28_1.png>]
 <output_31_0.png, id=233, 1437.37pt x 2127.95pt>
 File: output_31_0.png Graphic file (type png)
 <use output_31_0.png>
-Package luatex.def Info: output_31_0.png  used on input line 1210.
+Package luatex.def Info: output_31_0.png  used on input line 1204.
 (luatex.def)             Requested size: 1437.3665pt x 2127.94482pt.
  [19] [20<./output_31_0.png>]
 <output_33_0.png, id=244, 644.4075pt x 289.08pt>
 File: output_33_0.png Graphic file (type png)
 <use output_33_0.png>
-Package luatex.def Info: output_33_0.png  used on input line 1232.
+Package luatex.def Info: output_33_0.png  used on input line 1226.
 (luatex.def)             Requested size: 644.40593pt x 289.07928pt.
 <output_33_1.png, id=245, 644.4075pt x 289.08pt>
 File: output_33_1.png Graphic file (type png)
 <use output_33_1.png>
-Package luatex.def Info: output_33_1.png  used on input line 1237.
+Package luatex.def Info: output_33_1.png  used on input line 1231.
 (luatex.def)             Requested size: 644.40593pt x 289.07928pt.
  [21<./output_33_0.png><./output_33_1.png>]
 <output_36_0.png, id=254, 1063.975pt x 427.5975pt>
 File: output_36_0.png Graphic file (type png)
 <use output_36_0.png>
-Package luatex.def Info: output_36_0.png  used on input line 1290.
+Package luatex.def Info: output_36_0.png  used on input line 1284.
 (luatex.def)             Requested size: 1063.97241pt x 427.59645pt.
  [22]
 <output_36_1.png, id=259, 1052.93375pt x 427.5975pt>
 File: output_36_1.png Graphic file (type png)
 <use output_36_1.png>
-Package luatex.def Info: output_36_1.png  used on input line 1295.
+Package luatex.def Info: output_36_1.png  used on input line 1289.
 (luatex.def)             Requested size: 1052.93118pt x 427.59645pt.
  [23<./output_36_0.png><./output_36_1.png>]
 <output_38_0.png, id=266, 901.3675pt x 792.9625pt>
 File: output_38_0.png Graphic file (type png)
 <use output_38_0.png>
-Package luatex.def Info: output_38_0.png  used on input line 1315.
+Package luatex.def Info: output_38_0.png  used on input line 1309.
 (luatex.def)             Requested size: 901.36528pt x 792.96056pt.
  [24<./output_38_0.png>] [25] [26] [27]
 <output_43_0.png, id=287, 857.2025pt x 360.34625pt>
 File: output_43_0.png Graphic file (type png)
 <use output_43_0.png>
-Package luatex.def Info: output_43_0.png  used on input line 1466.
+Package luatex.def Info: output_43_0.png  used on input line 1460.
 (luatex.def)             Requested size: 857.20041pt x 360.34537pt.
 <output_43_1.png, id=288, 1174.3875pt x 488.82625pt>
 File: output_43_1.png Graphic file (type png)
 <use output_43_1.png>
-Package luatex.def Info: output_43_1.png  used on input line 1471.
+Package luatex.def Info: output_43_1.png  used on input line 1465.
 (luatex.def)             Requested size: 1174.38464pt x 488.82504pt.
 <output_43_2.png, id=289, 1187.43625pt x 488.82625pt>
 File: output_43_2.png Graphic file (type png)
 <use output_43_2.png>
-Package luatex.def Info: output_43_2.png  used on input line 1476.
+Package luatex.def Info: output_43_2.png  used on input line 1470.
 (luatex.def)             Requested size: 1187.43336pt x 488.82504pt.
  [28<./output_43_0.png><./output_43_1.png><./output_43_2.png>]
 <output_45_0.png, id=300, 559.08875pt x 304.13625pt>
 File: output_45_0.png Graphic file (type png)
 <use output_45_0.png>
-Package luatex.def Info: output_45_0.png  used on input line 1519.
+Package luatex.def Info: output_45_0.png  used on input line 1513.
 (luatex.def)             Requested size: 559.08737pt x 304.1355pt.
  [29<./output_45_0.png>] [30] [31]
 <output_47_0.png, id=317, 863.225pt x 360.34625pt>
 File: output_47_0.png Graphic file (type png)
 <use output_47_0.png>
-Package luatex.def Info: output_47_0.png  used on input line 1641.
+Package luatex.def Info: output_47_0.png  used on input line 1635.
 (luatex.def)             Requested size: 863.2229pt x 360.34537pt.
 <output_50_0.pdf, id=319, 523.20468pt x 855.195pt>
 File: output_50_0.pdf Graphic file (type pdf)
 <use output_50_0.pdf>
-Package luatex.def Info: output_50_0.pdf  used on input line 1689.
+Package luatex.def Info: output_50_0.pdf  used on input line 1683.
 (luatex.def)             Requested size: 523.2034pt x 855.19293pt.
  [32<./output_47_0.png>] [33<./output_50_0.pdf>]
 <parallel.png, id=958, 702.625pt x 451.6875pt>
 File: parallel.png Graphic file (type png)
 <use parallel.png>
-Package luatex.def Info: parallel.png  used on input line 1717.
+Package luatex.def Info: parallel.png  used on input line 1711.
 (luatex.def)             Requested size: 702.62328pt x 451.68639pt.
  [34<./parallel.png>] [35] [36]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1773.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1773.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1767.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1767.
 
 (./Brief_Analysis_on_Student_Performance_Data_Set.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1773.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1773.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1767.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1767.
 Package rerunfilecheck Info: File `Brief_Analysis_on_Student_Performance_Data_Se
 t.out' has not changed.
 (rerunfilecheck)             Checksum: 379DE46915A33C707C7232C12E8ECB4A;2828.
@@ -1660,14 +1660,14 @@ LaTeX Warning: There were multiply-defined labels.
 
 Here is how much of LuaTeX's memory you used:
  28753 strings out of 481089
- 932661,953878 words of node,token memory allocated
- 48560 words of node memory still in use:
-   10 hlist, 2 vlist, 5 rule, 2 glue, 364 kern, 1 glyph, 12922 attribute, 3466 g
+ 932663,953878 words of node,token memory allocated
+ 48505 words of node memory still in use:
+   10 hlist, 2 vlist, 5 rule, 2 glue, 364 kern, 1 glyph, 12922 attribute, 3455 g
 lue_spec, 820 attribute_list, 2 write, 420 user_defined nodes
-   avail lists: 1:44,2:182623,3:3430,4:30352,5:5584,6:282,7:21213,8:61,9:11680,1
+   avail lists: 1:42,2:182623,3:3430,4:30352,5:5584,6:284,7:21213,8:61,9:11680,1
 0:50,11:2718
  44934 multiletter control sequences out of 65536+600000
- 110 fonts using 69247019 bytes
+ 110 fonts using 69245739 bytes
  71i,9n,99p,1270b,642s stack positions out of 5000i,500n,10000p,200000b,100000s
 </usr/local/texlive/2020/texmf-dist/fonts/opentype/public/lm/lmmono10-italic.otf
 ></usr/local/texlive/2020/texmf-dist/fonts/opentype/public/lm/lmmonolt10-bold.ot
@@ -1683,7 +1683,7 @@ nts/opentype/public/lm/lmroman12-regular.otf></usr/local/texlive/2020/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2020/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmsy5.pfb>
 Output written on Brief_Analysis_on_Student_Performance_Data_Set.pdf (36 pages, 
-3596181 bytes).
+3595921 bytes).
 
 PDF statistics: 1054 PDF objects out of 1200 (max. 8388607)
  730 compressed objects within 8 object streams
